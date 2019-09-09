@@ -1,0 +1,50 @@
+[
+    {
+        "outputFile": "/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/C:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 58,
+                    "endOffset": 109
+                },
+                "from": {
+                    "file": "/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/C:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\src\\main\\res\\values-sw720dp-land\\dimens.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 205,
+                        "endColumn": 58,
+                        "endOffset": 259
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw720dp-land-v13/values-sw720dp-land-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 58,
+                    "endOffset": 109
+                },
+                "from": {
+                    "file": "/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/src/main/res/values-sw720dp-land/dimens.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 205,
+                        "endColumn": 58,
+                        "endOffset": 259
+                    }
+                }
+            }
+        ]
+    }
+]

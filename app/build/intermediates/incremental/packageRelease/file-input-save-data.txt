@@ -1,0 +1,36 @@
+#Internal package file, do not edit.
+#Thu Apr 11 20:08:00 CST 2019
+2.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+5.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\drawable-mdpi-v4\\ic_launcher.png
+5.set=ANDROID_RESOURCE
+3.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+6.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\transforms\\mergeJniLibs\\release\\folders\\2000\\1f\\main\\lib\\armeabi\\libZAandroid.so
+2.set=ANDROID_RESOURCE
+10.set=ANDROID_RESOURCE
+10.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\menu\\main.xml
+4.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\transforms\\dex\\release\\folders\\1000\\1f\\main
+7.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\AndroidManifest.xml
+7.set=ANDROID_RESOURCE
+count=11
+0.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\drawable-xxhdpi-v4\\ic_launcher.png
+5.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+8.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\layout\\activity_main.xml
+4.set=DEX
+6.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\transforms\\mergeJniLibs\\release\\folders\\2000\\1f\\main
+1.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\resources.arsc
+9.set=ANDROID_RESOURCE
+9.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\drawable-xhdpi-v4\\ic_launcher.png
+10.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+1.set=ANDROID_RESOURCE
+7.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+2.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\drawable-hdpi-v4\\fingerprint.png
+6.set=NATIVE_RESOURCE
+0.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+8.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+3.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_\\res\\drawable-hdpi-v4\\ic_launcher.png
+3.set=ANDROID_RESOURCE
+1.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+9.base=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\res\\resources-release.ap_
+4.file=C\:\\Users\\zhiang\\Desktop\\demo(android) 201811291\\app\\build\\intermediates\\transforms\\dex\\release\\folders\\1000\\1f\\main\\classes.dex
+8.set=ANDROID_RESOURCE
+0.set=ANDROID_RESOURCE

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="Communicationerr_str">Communication error</string>
+    <string name="RegModulefail_str">Synthetic template failed</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">demo</string>
+    <string name="close_str">close</string>
+    <string name="down_str">downfeature</string>
+    <string name="downcharsuccess_str">Feature download successful  time consuming:</string>
+    <string name="downsuccess_str">Feature download successful</string>
+    <string name="equit_str">Empty</string>
+    <string name="equitsuccess_str">Empty fingerprint successfully</string>
+    <string name="eroll_str">Register</string>
+    <string name="erollfail_str">Failed to register fingerprint</string>
+    <string name="erollsuccess_str">Registration fingerprint success   Storage ID:</string>
+    <string name="fpmatch_str">Compare</string>
+    <string name="getchar_str">Getfeatures</string>
+    <string name="getcharsuccess_str">Get char success</string>
+    <string name="getfailchar_str">Feature is too bad, please re-enter...</string>
+    <string name="getfpsuccess_str">Fingerprint successful</string>
+    <string name="getimage_str">Сравнить</string>
+    <string name="getimageing_str">Image acquisition</string>
+    <string name="getimagesuccess_str">Getting the image successful</string>
+    <string name="matchfail_str">Match failed   Score:</string>
+    <string name="matchsuccess_str">Match success   Score:</string>
+    <string name="open_str">open</string>
+    <string name="openfail_str">Failed to open the device</string>
+    <string name="opensuccess_str">open the device successfully</string>
+    <string name="pickupfinger_str">Please pick up your finger</string>
+    <string name="putyourfinger_str">Press the fingerprint to compare the fingerprint</string>
+    <string name="readfptimeout_str">Read Fingerprint Timeout</string>
+    <string name="readingfp_str">Reading in the fingerprint   Time left:</string>
+    <string name="search_str">Search</string>
+    <string name="searchfail_str">Failed to search for fingerprint</string>
+    <string name="searchsuccess_str">Search for fingerprint success   ID:</string>
+    <string name="stoperoll_str">Registration is automatically stopped</string>
+    <string name="stopgetchar_str">Get feature active stop</string>
+    <string name="stopgetimage_str">Stop acquiring the image</string>
+    <string name="stopmatch_str">Compare to active stop</string>
+    <string name="stopsearch_str">stop Search </string>
+    <string name="upchar_str">Upfeature</string>
+    <string name="upcharsuccess_str">Upload feature successful  time consuming:</string>
+    <string name="upimagesuccess_str">Up Img success</string>
+    <string name="usbfail_str">Usb have not find</string>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        
+    </style>
+    <style name="layout_full">  
+    <item name="android:layout_width">fill_parent</item>  
+    <item name="android:layout_height">fill_parent</item>  
+  </style>
+    <style name="layout_horizontal" parent="layout_full">  
+    <item name="android:layout_width">0px</item>  
+  </style>
+    <style name="layout_vertical" parent="layout_full">  
+    <item name="android:layout_height">0px</item>  
+  </style>
+    <style name="layout_wrap">  
+    <item name="android:layout_width">wrap_content</item>  
+    <item name="android:layout_height">wrap_content</item>  
+  </style>
+</resources>

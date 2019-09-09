@@ -1,0 +1,30 @@
+#Internal package file, do not edit.
+#Thu Sep 05 16:14:16 ALMT 2019
+2.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar
+5.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/res/drawable-mdpi-v4/ic_launcher.png
+5.set=ANDROID_RESOURCE
+3.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+6.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/mergeJniLibs/debug/folders/2000/1f/main/lib/armeabi/libZAandroid.so
+2.set=JAVA_RESOURCE
+4.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+7.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/resources.arsc
+7.set=ANDROID_RESOURCE
+count=9
+0.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/res/layout/activity_main.xml
+5.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+8.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/AndroidManifest.xml
+4.set=ANDROID_RESOURCE
+6.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/mergeJniLibs/debug/folders/2000/1f/main
+1.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/res/menu/main.xml
+1.set=ANDROID_RESOURCE
+7.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+2.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar/publicsuffixes.gz
+6.set=NATIVE_RESOURCE
+0.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+8.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+3.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+3.set=DEX
+1.base=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_
+4.file=/home/kanat/projects/LKG-FS50 (android, c++)/2/LKG-FS50 android studio 20190411(1)/demo(android) 201811291/app/build/intermediates/res/resources-debug.ap_/res/drawable-hdpi-v4/fingerprint.png
+8.set=ANDROID_RESOURCE
+0.set=ANDROID_RESOURCE
