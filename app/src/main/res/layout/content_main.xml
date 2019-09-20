@@ -13,48 +13,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.669" />
-
-    <Button
-        android:id="@+id/btnopen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#651FFF"
-        android:text="Button"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintTop_toBottomOf="@+id/reg"
+        app:layout_constraintVertical_bias="0.336" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
-        android:layout_width="235dp"
-        android:layout_height="115dp"
-        android:background="#2979FF"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/btnopen"
+        android:layout_width="373dp"
+        android:layout_height="157dp"
+        android:background="#00BCD4"
+        android:text="@string/enter"
+        android:textSize="36sp"
+        app:backgroundTint="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.685" />
+        app:layout_constraintVertical_bias="0.36" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/reg"
-        android:layout_width="152dp"
-        android:layout_height="64dp"
+        android:layout_width="250dp"
+        android:layout_height="81dp"
         android:layout_marginStart="596dp"
-        android:layout_marginTop="106dp"
         android:layout_marginEnd="596dp"
         android:layout_marginBottom="116dp"
-        android:text="Reg"
+        android:background="#FFEB3B"
+        android:text="@string/registration"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tempText" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.za.finger.ZA_finger;
 import com.za.finger.ZAandroid;
 
@@ -63,12 +66,13 @@ import retrofit2.Retrofit;
 public class RegistrationActivity extends AppCompatActivity {
     private Button btnsave;
     private ImageView mFingerprintIv ;
-    private EditText editName;
-    private EditText editSurname;
-    private EditText editIin;
+    private TextInputEditText editName;
+    private TextInputEditText editSurname;
+    private TextInputEditText editIin;
     private Toolbar  toolbar;
     private TextView mtvMessage;
     Bitmap bmpDefaultPic;
+    Dialog fingercontact;
 
     private boolean fpflag=false;
     long ssart = System.currentTimeMillis();
@@ -89,12 +93,17 @@ public class RegistrationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         btnsave = (Button) findViewById(R.id.btnsave);
-        editIin = (EditText) findViewById(R.id.iin);
-        editName = (EditText) findViewById(R.id.firstname);
-        editSurname  = (EditText) findViewById(R.id.surname);
+        editIin = (TextInputEditText) findViewById(R.id.textInputEditText3);
+        editName = (TextInputEditText) findViewById(R.id.textInputEditText2);
+        editSurname  = (TextInputEditText) findViewById(R.id.textInputEditText);
         mtvMessage = (TextView) findViewById(R.id.responseText);
         mFingerprintIv = (ImageView) findViewById(R.id.imageView);
         FloatingActionButton fab = findViewById(R.id.fab);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Назад");
+        getSupportActionBar().setSubtitle("к главной странице");
+        fingercontact = new Dialog(this);
+        fingercontact.requestWindowFeature(Window.FEATURE_NO_TITLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +145,12 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private void uploadImageRequest(String filePath, String name, String surname, String iin) {
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
         UploadAPIs uploadAPIs = retrofit.create(UploadAPIs.class);
@@ -164,10 +179,27 @@ public class RegistrationActivity extends AppCompatActivity {
                         int tempCounter = Integer.parseInt(responseBody);
                         int summary = counter-tempCounter;
                         toast = Toast.makeText(getApplicationContext(),
-                                "Еще, "+summary+"раза", Toast.LENGTH_SHORT);
+                                "Приложите отечаток еще, "+summary+" раз", Toast.LENGTH_SHORT);
                         toast.show();
                         String str = "Приложите отпечаток еще, "+summary+" раз";
                         mtvMessage.setText(str);
+                        if (summary==2){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    readsfpimg1();
+                                }
+                            }, 3000);
+
+                        }else if(summary==1){
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    readsfpimg1();
+                                }
+                            }, 3000);
+                        }
+
                     }else {
                         System.out.println(responseBody);
                         toast = Toast.makeText(getApplicationContext(),
@@ -186,6 +218,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 Log.e("Upload error:", t.getMessage());
             }
         });
+    }
+    private void showTimer()
+    {
+
+        TextView estimatedTime;
+        fingercontact.setContentView(R.layout.pop_up_finger_contact);
+        fingercontact.show();
     }
     public void ReturnHome(View view){
         super.onBackPressed();
@@ -240,9 +279,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 mtvMessage.setText(temp);
 
                 String str = "/mnt/sdcard/test.bmp";
-                a6.ZAZImgData2BMP(Image, str);
-                bmpDefaultPic = BitmapFactory.decodeFile(str,null);
-                mFingerprintIv.setImageBitmap(bmpDefaultPic);
                 String name = editName.getText().toString();
                 String surname = editSurname.getText().toString();
                 String iin = editIin.getText().toString();
@@ -258,19 +294,26 @@ public class RegistrationActivity extends AppCompatActivity {
                     editIin.setError("Введите ИИН");
                     return;
                 }
+                a6.ZAZImgData2BMP(Image, str);
+                bmpDefaultPic = BitmapFactory.decodeFile(str,null);
+                mFingerprintIv.setImageBitmap(bmpDefaultPic);
                 editName.setError(null);
                 editSurname.setError(null);
                 editIin.setError(null);
+                fingercontact.dismiss();
                 disableEditText(editName);
                 disableEditText(editSurname);
                 disableEditText(editIin);
+                btnsave.setEnabled(false);
                 String fingerPrintPath = Utils.saveImage(bmpDefaultPic,getRootDir());
                 uploadImageRequest(fingerPrintPath, name, surname,iin);
+
 
             }
             else if(nRet==a6.PS_NO_FINGER){
                 temp = getResources().getString(R.string.readingfp_str)+((10000-(ssend - ssart)))/1000 +"."+(1000-(ssend - ssart)%1000) +"s";
                 mtvMessage.setText(temp);
+                showTimer();
                 objHandler_fp.postDelayed(fpTasks1, 100);
             }
             else if(nRet==a6.PS_GET_IMG_ERR){
@@ -278,6 +321,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 Log.d(TAG, temp+"2: "+nRet);
                 objHandler_fp.postDelayed(fpTasks1, 100);
                 mtvMessage.setText(temp);
+                fingercontact.dismiss();
                 return;
             }else if(nRet == -2)
             {
@@ -285,12 +329,14 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(testcount <3){
                     temp = getResources().getString(R.string.readingfp_str)+((10000-(ssend - ssart)))/1000 +"s";
                     mtvMessage.setText(temp);
+                    showTimer();
                     objHandler_fp.postDelayed(fpTasks1, 10);
                 }
                 else{
                     temp =getResources().getString(R.string.Communicationerr_str);
                     Log.d(TAG, temp+": "+nRet);
                     mtvMessage.setText(temp);
+                    fingercontact.dismiss();
                     return;
                 }
             }
@@ -299,6 +345,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 temp =getResources().getString(R.string.Communicationerr_str);
                 Log.d(TAG, temp+"2: "+nRet);
                 mtvMessage.setText(temp);
+                fingercontact.dismiss();
                 return;
             }
 

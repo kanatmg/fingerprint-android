@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,9 +23,12 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,7 +54,7 @@ import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnopen ;
+
     private Button btnRegActivity;
     private Button btnRegister;;
     private Button btntutorial;
@@ -59,8 +63,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mFingerprintIv ;
     private EditText editName;
     private ProgressBar progressBar;
+    private FloatingActionButton floatingActionButton;
+    private  Toast toast;
     Bitmap bmpDefaultPic;
-
+    Dialog dialog;
+    Dialog userDialog;
+    Dialog notfoundDialog;
+    Dialog poweronDialog;
+    Dialog poweringDialog;
 
     private boolean fpflag=false;
     private boolean fpcharflag = false;
@@ -117,15 +127,14 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case opensuccess:
                     temp = getResources().getString(R.string.open_str);
-                  /*  Snackbar.make(getCurrentFocus(), temp, Snackbar.LENGTH_LONG)
-                            .setAction(temp, null).show();*/
-
-                    mtvMessage.setText(temp);
+                    //mtvMessage.setText(temp);
+                    toast.makeText(ahandle,temp,Toast.LENGTH_SHORT).show();
                     //btnopen.setText(getResources().getString(R.string.close_str));
                     break;
                 case openfail:
                     //temp =getResources().getString(R.string.openfail_str);
                     mtvMessage.setText(temp);
+                    Toast.makeText(ahandle,temp,Toast.LENGTH_SHORT).show();
                     //btnopen.setText(getResources().getString(R.string.open_str));
                     break;
                 case usbfail:
@@ -157,29 +166,81 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         mtvMessage = (TextView) findViewById(R.id.tempText);
-        btnopen = (Button) findViewById(R.id.btnopen);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegActivity = (Button) findViewById(R.id.reg);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        btnRegActivity.setEnabled(false);
+        btnRegister.setEnabled(false);
         btnOnClick();
         objHandler_fp = new Handler();//
-
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        userDialog = new Dialog(this);
+        userDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        notfoundDialog = new Dialog(this);
+        notfoundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        poweronDialog = new Dialog(this);
+        poweronDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        poweringDialog = new Dialog(this);
+        poweringDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //初始化基本参数
         ahandle = this;		//页面句柄
         rootqx = 1;			//系统权限(0:not root  1:root)
         defDeviceType=12;	//设备通讯类型(2:usb  1:串口)
         defiCom= 6;			//设备波特率(1:9600 2:19200 3:38400 4:57600 6:115200  usb无效)
     }
+    private void showTimer(String time)
+    {
 
+        TextView estimatedTime;
+        dialog.setContentView(R.layout.pop_up_finger_contact);
+        dialog.show();
+    }
+    public void userDetailDialog(String name,String surname,String iin){
+        TextView nameResponse;
+        TextView surnameResponse;
+        TextView iinResponse;
+        userDialog.setContentView(R.layout.pop_up_user_detail);
+        nameResponse = (TextView) userDialog.findViewById(R.id.nameResponse);
+        surnameResponse = (TextView) userDialog.findViewById(R.id.surnameResponse);
+        iinResponse = (TextView) userDialog.findViewById(R.id.iinResponse);
+        nameResponse.setText(name);
+        surnameResponse.setText(surname);
+        iinResponse.setText(iin);
+        userDialog.show();
+
+    }
+    public void notfoundDialog(){
+        notfoundDialog.setContentView(R.layout.pop_up_not_found);
+        notfoundDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (notfoundDialog.isShowing()){
+                    notfoundDialog.dismiss();
+                }
+            }
+        }, 5000);
+    }
+    public void showPowerOnDialog(){
+        poweronDialog.setContentView(R.layout.pop_up_power_on);
+        poweronDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (poweronDialog.isShowing()){
+                    poweronDialog.dismiss();
+                }
+            }
+        }, 3000);
+    }
+    public void showPoweringDialog(){
+        poweringDialog.setContentView(R.layout.pop_up_powering);
+        poweringDialog.show();
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -187,17 +248,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void btnOnClick()
     {
-        //打开
-        btnopen.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("unused")
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 // TODO Auto-generated method stub
                 byte[] pPassword = new byte[4];
                 //skipshow("open");
+                showPoweringDialog();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (poweringDialog.isShowing()){
+                            poweringDialog.dismiss();
+                        }
+                    }
+                }, 4000);
                 Runnable r = new Runnable() {
                     public void run() {
                         isusbfinshed = 3;
@@ -205,13 +272,27 @@ public class MainActivity extends AppCompatActivity {
                         //fppower.finger_power_on();
                         Sleep(1000);
                         OpenDev();
+
                     }
                 };
                 deviceThread = new Thread(r);
                 deviceThread.start();
-            }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnRegActivity.setEnabled(true);
+                        btnRegister.setEnabled(true);
+                    }
+                }, 4000);
+                poweringDialog.dismiss();
 
+                showPowerOnDialog();
+
+
+            }
         });
+
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,7 +332,15 @@ public class MainActivity extends AppCompatActivity {
                 String temp = response.body().getName();
                 toast = Toast.makeText(getApplicationContext(),
                         response.body().getName(), Toast.LENGTH_SHORT);
-                toast.show();/*
+                toast.show();
+                if(response.body().getName()!=null) {
+                    userDetailDialog(response.body().getName(), response.body().getSurname(), response.body().getIin());
+                } else {
+                    notfoundDialog();
+                }
+
+                btnRegister.setEnabled(true);
+                /*
                 Snackbar.make(getCurrentFocus(), temp, Snackbar.LENGTH_LONG)
                         .setAction(temp, null).show();*/
 
@@ -313,13 +402,13 @@ public class MainActivity extends AppCompatActivity {
             //skipshow("watting a time");
             Log.i(TAG,"waiting user put root ");
             if(WaitForInterfaces() == false)  {
-                m_fEvent.sendMessage(m_fEvent.obtainMessage(usbfail, R.id.btnopen, 0));
+                m_fEvent.sendMessage(m_fEvent.obtainMessage(usbfail, R.id.fab, 0));
                 return;
             }
             fd = OpenDeviceInterfaces();
             if(fd == -1)
             {
-                m_fEvent.sendMessage(m_fEvent.obtainMessage(usbfail, R.id.btnopen, 0));
+                m_fEvent.sendMessage(m_fEvent.obtainMessage(usbfail, R.id.fab, 0));
                 return;
             }
             Log.e(TAG, "open fd: " + fd);
@@ -332,10 +421,11 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.e(TAG, " open status: " + status);
         if(status == 0){
-            m_fEvent.sendMessage(m_fEvent.obtainMessage(opensuccess, R.id.btnopen, 0)  );
+            m_fEvent.sendMessage(m_fEvent.obtainMessage(opensuccess, R.id.fab, 0)  );
+
         }
         else{
-            m_fEvent.sendMessage(m_fEvent.obtainMessage(openfail, R.id.btnopen, 0));
+            m_fEvent.sendMessage(m_fEvent.obtainMessage(openfail, R.id.fab, 0));
             if(defDeviceType == 2)
                 defDeviceType =5;
             else if(defDeviceType ==5)
@@ -402,12 +492,16 @@ public class MainActivity extends AppCompatActivity {
                 //mFingerprintIv.setImageBitmap(bmpDefaultPic);
                 String fingerPrintPath = Utils.saveImage(bmpDefaultPic,getRootDir());
                 //progressBar.setVisibility(View.GONE);
+                btnRegister.setEnabled(false);
                 compareImageRequest(fingerPrintPath);
+                dialog.dismiss();
+
                 //FingerprintRequests.compareImageRequest(fingerPrintPath,getApplicationContext(),entryPointFingerprint);
                 //progressBar.setVisibility(View.VISIBLE);
             }
             else if(nRet==a6.PS_NO_FINGER){
                 temp = getResources().getString(R.string.readingfp_str)+((10000-(ssend - ssart)))/1000 +"."+(1000-(ssend - ssart)%1000) +"s";
+                showTimer(temp);
                 //mtvMessage.setText(temp);
                 objHandler_fp.postDelayed(fpTasks, 100);
             }
@@ -415,6 +509,7 @@ public class MainActivity extends AppCompatActivity {
                 temp =getResources().getString(R.string.getimageing_str);
                 Log.d(TAG, temp+"2: "+nRet);
                 objHandler_fp.postDelayed(fpTasks, 100);
+                dialog.dismiss();
                 //mtvMessage.setText(temp);
                 return;
             }else if(nRet == -2)
@@ -424,11 +519,13 @@ public class MainActivity extends AppCompatActivity {
                     temp = getResources().getString(R.string.readingfp_str)+((10000-(ssend - ssart)))/1000 +"s";
                     isfpon = false;
                     //mtvMessage.setText(temp);
+                    showTimer(temp);
                     objHandler_fp.postDelayed(fpTasks, 10);
                 }
                 else{
                     temp =getResources().getString(R.string.Communicationerr_str);
                     Log.d(TAG, temp+": "+nRet);
+                    dialog.dismiss();
                     //mtvMessage.setText(temp);
                     return;
                 }
@@ -437,6 +534,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 temp =getResources().getString(R.string.Communicationerr_str);
                 Log.d(TAG, temp+"2: "+nRet);
+                dialog.dismiss();
                 //mtvMessage.setText(temp);
                 return;
             }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
-    <string name="open_str">open</string>
+    <string name="open_str">Подключение успешно завершено</string>
     <string name="close_str">close</string>
     <string name="getimage_str">Сравнить</string>
     <string name="getchar_str">Getfeatures</string>
@@ -45,6 +45,7 @@
     <string name="surname">Фамилия</string>
     <string name="identity_code">ИИН</string>
     <string name="registration">Регистрация</string>
+    <string name="enter">Вход/Выход</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
 </resources>
