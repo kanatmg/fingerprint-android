@@ -239,6 +239,14 @@ public class MainActivity extends AppCompatActivity {
     public void showPoweringDialog(){
         poweringDialog.setContentView(R.layout.pop_up_powering);
         poweringDialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (poweringDialog.isShowing()){
+                    poweringDialog.dismiss();
+                }
+            }
+        }, 5000);
 
     }
     @Override
@@ -256,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 byte[] pPassword = new byte[4];
                 //skipshow("open");
-                showPoweringDialog();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -284,9 +292,9 @@ public class MainActivity extends AppCompatActivity {
                         btnRegister.setEnabled(true);
                     }
                 }, 4000);
-                poweringDialog.dismiss();
+                showPoweringDialog();
 
-                showPowerOnDialog();
+                //showPowerOnDialog();
 
 
             }

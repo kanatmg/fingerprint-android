@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Dialog;
 import android.os.Bundle;
 
+import com.example.myapplication.iin.PrivatePersonId;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -66,9 +67,9 @@ import retrofit2.Retrofit;
 public class RegistrationActivity extends AppCompatActivity {
     private Button btnsave;
     private ImageView mFingerprintIv ;
-    private TextInputEditText editName;
-    private TextInputEditText editSurname;
-    private TextInputEditText editIin;
+    private EditText editName;
+    private EditText editSurname;
+    private EditText editIin;
     private Toolbar  toolbar;
     private TextView mtvMessage;
     Bitmap bmpDefaultPic;
@@ -93,9 +94,9 @@ public class RegistrationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         btnsave = (Button) findViewById(R.id.btnsave);
-        editIin = (TextInputEditText) findViewById(R.id.textInputEditText3);
-        editName = (TextInputEditText) findViewById(R.id.textInputEditText2);
-        editSurname  = (TextInputEditText) findViewById(R.id.textInputEditText);
+        editIin = (EditText) findViewById(R.id.textInputEditText3);
+        editName = (EditText) findViewById(R.id.textInputEditText2);
+        editSurname  = (EditText) findViewById(R.id.textInputEditText);
         mtvMessage = (TextView) findViewById(R.id.responseText);
         mFingerprintIv = (ImageView) findViewById(R.id.imageView);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -111,7 +112,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        File appDirectory = new File( Environment.getExternalStorageDirectory() + "/saved_images" );
+        /*File appDirectory = new File( Environment.getExternalStorageDirectory() + "/saved_images" );
         File logDirectory = new File( appDirectory + "/log" );
         File logFile = new File( logDirectory, "logcat" + System.currentTimeMillis() + ".txt" );
 
@@ -131,7 +132,7 @@ public class RegistrationActivity extends AppCompatActivity {
             process = Runtime.getRuntime().exec("logcat -f " + logFile);
         } catch ( IOException e ) {
             e.printStackTrace();
-        }
+        }*/
         objHandler_fp = new Handler();
         
         btnsave.setOnClickListener(new View.OnClickListener() {
@@ -284,15 +285,26 @@ public class RegistrationActivity extends AppCompatActivity {
                 String iin = editIin.getText().toString();
                 if(TextUtils.isEmpty(name)){
                     editName.setError("Введите Имя");
+                    fingercontact.dismiss();
                     return;
                 }
                 if(TextUtils.isEmpty(surname)){
                     editSurname.setError("Введите Фамилия");
+                    fingercontact.dismiss();
                     return;
                 }
                 if(TextUtils.isEmpty(iin)){
                     editIin.setError("Введите ИИН");
+                    fingercontact.dismiss();
                     return;
+                }
+                if(!TextUtils.isEmpty(iin)){
+                    PrivatePersonId iinChecker = new PrivatePersonId(iin);
+                    if(!iinChecker.isValid()){
+                        editIin.setError("Не валидный ИИН");
+                        fingercontact.dismiss();
+                        return;
+                    }
                 }
                 a6.ZAZImgData2BMP(Image, str);
                 bmpDefaultPic = BitmapFactory.decodeFile(str,null);
