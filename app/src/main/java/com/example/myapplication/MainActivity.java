@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.usb.UsbDevice;
@@ -40,8 +41,13 @@ import android.widget.Toast;
 import com.za.finger.ZA_finger;
 import com.za.finger.ZAandroid;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import okhttp3.MediaType;
@@ -56,8 +62,9 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnRegActivity;
-    private Button btnRegister;;
+    private Button btnRegister;
     private Button btntutorial;
+    private TextView tempText;
     private Button btnsave;
     private Button btncompare;
     private ImageView mFingerprintIv ;
@@ -65,12 +72,15 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FloatingActionButton floatingActionButton;
     private  Toast toast;
+    private Session session;
+
     Bitmap bmpDefaultPic;
     Dialog dialog;
     Dialog userDialog;
     Dialog notfoundDialog;
     Dialog poweronDialog;
     Dialog poweringDialog;
+    Dialog powerInfoDialog;
 
     private boolean fpflag=false;
     private boolean fpcharflag = false;
@@ -164,15 +174,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         mtvMessage = (TextView) findViewById(R.id.tempText);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegActivity = (Button) findViewById(R.id.reg);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("Timetra");
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        btnRegActivity.setEnabled(false);
-        btnRegister.setEnabled(false);
+        Intent regintent = getIntent();
+        boolean showButton = regintent.getBooleanExtra("show_button",false);
+        boolean showPowerInfoDialogBoolean = regintent.getBooleanExtra("show_poweron_dialog",true);
+        if(!showButton) {
+            btnRegActivity.setEnabled(false);
+            btnRegister.setEnabled(false);
+        }else {
+            btnRegActivity.setEnabled(true);
+            btnRegister.setEnabled(true);
+        }
+
+        powerInfoDialog = new Dialog(this);
+        powerInfoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        session = new Session(this);
+        tempText = (TextView) findViewById(R.id.tempText);
+        tempText.setText(session.getOrganizationName());
+        System.out.println("Sessionsdadasdasasdsasaddsds: "+session.getOrganizationId());
+        if(showPowerInfoDialogBoolean) {
+            showPowerInfoDialog();
+        }
         btnOnClick();
         objHandler_fp = new Handler();//
         dialog = new Dialog(this);
@@ -190,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
         rootqx = 1;			//系统权限(0:not root  1:root)
         defDeviceType=12;	//设备通讯类型(2:usb  1:串口)
         defiCom= 6;			//设备波特率(1:9600 2:19200 3:38400 4:57600 6:115200  usb无效)
+
     }
     private void showTimer(String time)
     {
@@ -224,6 +254,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 5000);
     }
+    public void showPowerInfoDialog()
+    {
+         powerInfoDialog.setContentView(R.layout.pop_up_power_info);
+         powerInfoDialog.show();
+         new Handler().postDelayed(new Runnable() {
+             @Override
+             public void run() {
+                 if(powerInfoDialog.isShowing()){
+                     powerInfoDialog.dismiss();
+                 }
+             }
+         },3000);
+    }
+
     public void showPowerOnDialog(){
         poweronDialog.setContentView(R.layout.pop_up_power_on);
         poweronDialog.show();
@@ -253,8 +297,30 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void logout(){
+        session.setLoggedIn(false);
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        MainActivity.this.startActivity(loginIntent);
+    }
+
 
     private void btnOnClick()
     {
@@ -320,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    private   void compareImageRequest(String filePath) {
+    private   void compareImageRequest(String filePath){
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
         UploadAPIs uploadAPIs = retrofit.create(UploadAPIs.class);
         //Create a file object using file path
@@ -329,25 +395,32 @@ public class MainActivity extends AppCompatActivity {
         RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
         // Create MultipartBody.Part using file request-body,file name and part name
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), fileReqBody);
+        RequestBody orgId = RequestBody.create(okhttp3.MultipartBody.FORM,session.getOrganizationId());
 
-        Call<User> call = uploadAPIs.ComeInImage(part);
+        Call<User> call = uploadAPIs.ComeInImage(part,orgId);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call,
                                    Response<User> response) {
                 Toast toast = null;
-                assert response.body() != null;
+                if(response.body()!=null){
                 String temp = response.body().getName();
                 toast = Toast.makeText(getApplicationContext(),
                         response.body().getName(), Toast.LENGTH_SHORT);
                 toast.show();
                 if(response.body().getName()!=null) {
                     userDetailDialog(response.body().getName(), response.body().getSurname(), response.body().getIin());
+                    btnRegister.setEnabled(true);
                 } else {
                     notfoundDialog();
+                    btnRegister.setEnabled(true);
+                }
+                }else {
+                    notfoundDialog();
+                    btnRegister.setEnabled(true);
                 }
 
-                btnRegister.setEnabled(true);
+
                 /*
                 Snackbar.make(getCurrentFocus(), temp, Snackbar.LENGTH_LONG)
                         .setAction(temp, null).show();*/
@@ -370,6 +443,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                notfoundDialog(); 
                 Log.e("Upload error:", t.getMessage());
             }
         });
@@ -577,18 +651,6 @@ public class MainActivity extends AppCompatActivity {
             temp += hex.toUpperCase();
         }
         return temp;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 

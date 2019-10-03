@@ -109,5 +109,21 @@
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
 
+    <TextView
+        android:id="@+id/tempOrganizationName"
+        android:layout_width="429dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="426dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="425dp"
+        android:layout_marginBottom="62dp"
+        android:gravity="center"
+        android:text="Org"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

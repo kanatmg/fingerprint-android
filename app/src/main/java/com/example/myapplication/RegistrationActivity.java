@@ -72,8 +72,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText editIin;
     private Toolbar  toolbar;
     private TextView mtvMessage;
+    private TextView textOrganizationName;
     Bitmap bmpDefaultPic;
     Dialog fingercontact;
+
+    private  Session session;
 
     private boolean fpflag=false;
     long ssart = System.currentTimeMillis();
@@ -91,6 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         btnsave = (Button) findViewById(R.id.btnsave);
@@ -99,12 +103,18 @@ public class RegistrationActivity extends AppCompatActivity {
         editSurname  = (EditText) findViewById(R.id.textInputEditText);
         mtvMessage = (TextView) findViewById(R.id.responseText);
         mFingerprintIv = (ImageView) findViewById(R.id.imageView);
+        textOrganizationName = (TextView) findViewById(R.id.tempOrganizationName);
         FloatingActionButton fab = findViewById(R.id.fab);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Назад");
         getSupportActionBar().setSubtitle("к главной странице");
+        session = new Session(this);
+
+        textOrganizationName.setText(session.getOrganizationName());
         fingercontact = new Dialog(this);
         fingercontact.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +163,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void uploadImageRequest(String filePath, String name, String surname, String iin) {
-        Retrofit retrofit = NetworkClient.getRetrofitClient(this);
+        Retrofit retrofit = null;
+
+        retrofit = NetworkClient.getRetrofitClient(this);
+
         UploadAPIs uploadAPIs = retrofit.create(UploadAPIs.class);
         //Create a file object using file path
         File file = new File(filePath);
@@ -208,6 +221,10 @@ public class RegistrationActivity extends AppCompatActivity {
                         toast.show();
                         mtvMessage.setText(responseBody);
                         ReturnHome(getCurrentFocus());
+                        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                        intent.putExtra("show_button",true);
+                        intent.putExtra("show_poweron_dialog",false);
+                        RegistrationActivity.this.startActivity(intent);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
